@@ -15,6 +15,11 @@ import javax.swing.JOptionPane;
  * @author Dylan
  */
 public class Conexion {
+    
+    
+    
+    
+    
     private static Connection con;
   private static boolean conectado = false;
     public  static Connection Conectar(){
