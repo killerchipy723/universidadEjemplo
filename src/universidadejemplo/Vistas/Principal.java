@@ -5,6 +5,7 @@
  */
 package universidadejemplo.Vistas;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,6 +19,7 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     /**
