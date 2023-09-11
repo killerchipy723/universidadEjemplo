@@ -99,6 +99,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/salir.png"))); // NOI18N
         jMenuItem7.setText("Salir del Sistema");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
