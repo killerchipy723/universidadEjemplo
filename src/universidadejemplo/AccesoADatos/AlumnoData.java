@@ -5,6 +5,7 @@
  */
 package universidadejemplo.AccesoADatos;
 
+<<<<<<< Updated upstream
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +14,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+=======
+import static java.awt.image.ImageObserver.WIDTH;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import static javax.swing.SpringLayout.WIDTH;
+>>>>>>> Stashed changes
 import universidadejemplo.Entidades.Alumno;
+import universidadejemplo.Vistas.alumnos;
 
 /**
  *
@@ -21,11 +34,14 @@ import universidadejemplo.Entidades.Alumno;
  */
 public class AlumnoData {
     Conexion con;
+     private String guardar;
 
     public AlumnoData() {
+       
     }
     
     
+<<<<<<< Updated upstream
     public void GuardarAlumno(Alumno alumno){
         String sql = "INSERT INTO alumno (dni, apellido, nombre, fechaNacimiento, estado) VALUES (?, ?, ?, ?, ?)";
  try {
@@ -47,6 +63,29 @@ public class AlumnoData {
 JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Alumno"+ex.getMessage()); 
         
               
+=======
+    public  void GuardarAlumno(){
+        alumnos alu = new alumnos();
+        
+        Connection cn = Conexion.Conectar();
+        String sql="INSERT INTO alumno(dni, apellido, nombre, fechaNacimiento, estado) VALUES (?,?,?,?,?))";
+        PreparedStatement pst = null;
+        try {
+            pst = cn.prepareStatement(sql);
+        
+            pst.setString(1,alu.txtDni.getText());
+            pst.setString(2,alu.txtApellido.getText());
+            pst.setString(3,alu.txtNombre.getText());
+            pst.setString(4,((JTextField)alu.txtFecha.getDateEditor().getUiComponent()).getText());
+            pst.setString(5,alu.comboEstado.getItemAt(1));
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(alu,"Registro Guardado Correctamente");
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(alu, ex);
+        }
+        
+>>>>>>> Stashed changes
         
     }
   }
@@ -205,7 +244,12 @@ ps.close();
 }   
          
      }
-    
+    public void mostrarAlumno(){
+        
+        
+    }
+
+   
     
     
     
