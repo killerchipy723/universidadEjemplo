@@ -17,21 +17,31 @@ public class Alumno {
     String nombre;
     String apellido;
     LocalDate fechadenacimiento;
-    boolean activo;
+    boolean estado;
+    int dni;
 
-    public Alumno(int idalumno, String nombre, String apellido, LocalDate fechadenacimiento, boolean activo) {
+    public Alumno() {
+    }
+    
+    
+    
+    
+
+    public Alumno(int idalumno, String nombre, String apellido, LocalDate fechadenacimiento, boolean estdado, int dni) {
         this.idalumno = idalumno;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechadenacimiento = fechadenacimiento;
-        this.activo = activo;
+        this.estado = estado;
+        this.dni = dni;
     }
 
-    public Alumno(String nombre, String apellido, LocalDate fechadenacimiento, boolean activo) {
+    public Alumno(String nombre, String apellido, LocalDate fechadenacimiento, boolean activo, int dni) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechadenacimiento = fechadenacimiento;
-        this.activo = activo;
+        this.estado = estado;
+        this.dni = dni;
     }
 
     public int getIdalumno() {
@@ -66,21 +76,32 @@ public class Alumno {
         this.fechadenacimiento = fechadenacimiento;
     }
 
-    public boolean isActivo() {
-        return activo;
+    public boolean isEstado() {
+        return estado;
     }
 
-    public void setActivo(boolean activo) {
-        this.activo = activo;
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
+   
+
+    public int getDni() {
+        return dni;
+    }
+
+    public void setDni(int dni) {
+        this.dni = dni;
     }
 
     @Override
     public String toString() {
-        return "Alumno{" + "idalumno=" + idalumno + ", nombre=" + nombre + ", apellido=" + apellido + ", fechadenacimiento=" + fechadenacimiento + ", activo=" + activo + '}';
+        return "Alumno{" + "idalumno=" + idalumno + ", nombre=" + nombre + ", apellido=" + apellido + ", fechadenacimiento=" + fechadenacimiento + ", activo=" + estado + ", dni=" + dni + '}';
     }
     
     
     
-    
+
+ 
     
 }
