@@ -5,6 +5,8 @@
  */
 package universidadejemplo.Vistas;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,8 +32,16 @@ public class materias extends javax.swing.JFrame {
         comboEstado.addItem("1");
         txtNombre.requestFocus();
         //txtCodigo.enable(false);
+        setIconImage(getIconImage());
         
     }
+    //Cambiar Icono
+    
+    public Image getImageIcon(){
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("img/icono.png"));
+        return retValue;
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -63,6 +73,8 @@ public class materias extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sistema Integral - Universidad de la Punta - San Luis");
+        setIconImage(getImageIcon());
 
         jPanel1.setBackground(new java.awt.Color(0, 51, 102));
 
@@ -152,10 +164,11 @@ public class materias extends javax.swing.JFrame {
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(54, 54, 54)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(jLabel4))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -192,6 +205,11 @@ public class materias extends javax.swing.JFrame {
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         jButton4.setText("Eliminar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
         btnGuardar.setText("Guardar");
@@ -293,6 +311,10 @@ actualizarMaterias();
         comboEstado.setSelectedItem("");
         txtCodigo.setEnabled(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        eliminarMaterias();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -396,8 +418,27 @@ actualizarMaterias();
             Logger.getLogger(materias.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+  public void eliminarMaterias(){
+          try {
+            Connection con = Conexion.Conectar();
+            PreparedStatement pst = con.prepareStatement("delete from materia WHERE idMateria = '"+txtCodigo.getText()+"'" );
+            
+          
+            if(txtNombre.getText()!=null && txtAño.getText()!=null && comboEstado.getItemAt(WIDTH)!=null){
+                 if (JOptionPane.showConfirmDialog(rootPane, "¿Desea Eliminar el registro?","Eliminar Registro", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+                      pst.executeUpdate();
+                        JOptionPane.showMessageDialog(this,"Registro Eliminado");
+                 }
+               
+            }else{
+                JOptionPane.showMessageDialog(this,"Error al Eliminar el registro de materia");
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(materias.class.getName()).log(Level.SEVERE, null, ex);
+        }
        
-   
+   } 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
