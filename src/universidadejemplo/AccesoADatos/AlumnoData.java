@@ -80,6 +80,7 @@ JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Alumno"+ex.getM
  PreparedStatement ps = null;
  try {
  ps = con.prepareStatement(sql);
+ //carga bd ob
  ps.setInt(1,id );
  ResultSet rs = ps.executeQuery();
 

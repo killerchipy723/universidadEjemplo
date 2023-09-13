@@ -147,7 +147,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="txtDni" min="-2" pref="203" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="BntBuscar" min="-2" pref="113" max="-2" attributes="0"/>
+                          <Component id="BntBuscar" min="-2" pref="137" max="-2" attributes="0"/>
                       </Group>
                       <Component id="txtId" alignment="0" min="-2" pref="59" max="-2" attributes="0"/>
                       <Component id="txtNombre" alignment="0" min="-2" pref="323" max="-2" attributes="0"/>
@@ -155,7 +155,7 @@
                       <Component id="comboEstado" alignment="0" min="-2" pref="104" max="-2" attributes="0"/>
                       <Component id="txtApellido" alignment="0" min="-2" pref="315" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="151" max="32767" attributes="0"/>
+                  <EmptySpace pref="127" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
