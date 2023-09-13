@@ -5,7 +5,7 @@
  */
 package universidadejemplo.AccesoADatos;
 
-<<<<<<< Updated upstream
+
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +14,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-=======
+
 import static java.awt.image.ImageObserver.WIDTH;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import static javax.swing.SpringLayout.WIDTH;
->>>>>>> Stashed changes
+
 import universidadejemplo.Entidades.Alumno;
 import universidadejemplo.Vistas.alumnos;
 
@@ -40,17 +40,19 @@ public class AlumnoData {
        
     }
     
-    
-<<<<<<< Updated upstream
-    public void GuardarAlumno(Alumno alumno){
+
+    public static void GuardarAlumno(Alumno alumno){
+        alumnos alu = new alumnos();
         String sql = "INSERT INTO alumno (dni, apellido, nombre, fechaNacimiento, estado) VALUES (?, ?, ?, ?, ?)";
  try {
- PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
- ps.setInt(1, alumno.getDni());
- ps.setString(2, alumno.getApellido());
- ps.setString(3, alumno.getNombre());
- ps.setDate(4, Date.valueOf(alumno.getFechadenacimiento()));//localDate a Date
- ps.setBoolean(5, alumno.isEstado()); // if reducido
+ Connection con = Conexion.Conectar();
+ PreparedStatement ps = con.prepareStatement(sql);
+ 
+ ps.setString(1, alu.txtDni.getText());
+ ps.setString(2, alu.txtApellido.getText());
+ ps.setString(3, alu.txtNombre.getText());
+ ps.setDate(4, Date.valueOf(alu.txtFecha.getDateFormatString()));//localDate a Date
+ //ps.setString(5, alu.comboEstado.getItemAt(1)); // if reducido
  ps.executeUpdate();
  ResultSet rs = ps.getGeneratedKeys();
  if (rs.next()) {
@@ -63,29 +65,7 @@ public class AlumnoData {
 JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Alumno"+ex.getMessage()); 
         
               
-=======
-    public  void GuardarAlumno(){
-        alumnos alu = new alumnos();
-        
-        Connection cn = Conexion.Conectar();
-        String sql="INSERT INTO alumno(dni, apellido, nombre, fechaNacimiento, estado) VALUES (?,?,?,?,?))";
-        PreparedStatement pst = null;
-        try {
-            pst = cn.prepareStatement(sql);
-        
-            pst.setString(1,alu.txtDni.getText());
-            pst.setString(2,alu.txtApellido.getText());
-            pst.setString(3,alu.txtNombre.getText());
-            pst.setString(4,((JTextField)alu.txtFecha.getDateEditor().getUiComponent()).getText());
-            pst.setString(5,alu.comboEstado.getItemAt(1));
-            pst.executeUpdate();
-            JOptionPane.showMessageDialog(alu,"Registro Guardado Correctamente");
-            
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(alu, ex);
-        }
-        
->>>>>>> Stashed changes
+
         
     }
   }
