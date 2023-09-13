@@ -64,9 +64,9 @@ public class alumnos extends javax.swing.JFrame {
         comboEstado = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -203,24 +203,24 @@ public class alumnos extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nuevo.png"))); // NOI18N
-        jButton2.setText("Nuevo");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nuevo.png"))); // NOI18N
+        btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnNuevoActionPerformed(evt);
             }
         });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
-        jButton3.setText("Guardar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnGuardarActionPerformed(evt);
             }
         });
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
-        jButton4.setText("Eliminar");
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
+        btnEliminar.setText("Eliminar");
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/salir.png"))); // NOI18N
         jButton5.setText("Salir");
@@ -251,11 +251,11 @@ public class alumnos extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addGap(132, 132, 132)
-                            .addComponent(jButton2)
+                            .addComponent(btnNuevo)
                             .addGap(18, 18, 18)
-                            .addComponent(jButton3)
+                            .addComponent(btnGuardar)
                             .addGap(18, 18, 18)
-                            .addComponent(jButton4)
+                            .addComponent(btnEliminar)
                             .addGap(18, 18, 18)
                             .addComponent(jButton5))
                         .addGroup(layout.createSequentialGroup()
@@ -271,9 +271,9 @@ public class alumnos extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
+                    .addComponent(btnNuevo)
+                    .addComponent(btnGuardar)
+                    .addComponent(btnEliminar)
                     .addComponent(jButton5))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -291,19 +291,20 @@ public class alumnos extends javax.swing.JFrame {
        this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         cargarAlumno();
        
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
        txtDni.setText("");
         txtApellido.setText("");
          txtNombre.setText("");        
            txtDni.requestFocus();
            txtFecha.setDate(null);
            comboEstado.setSelectedIndex(0);
-    }//GEN-LAST:event_jButton2ActionPerformed
+           btnGuardar.setEnabled(true);
+    }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void BntBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BntBuscarActionPerformed
        buscarDni();
@@ -387,6 +388,7 @@ public class alumnos extends javax.swing.JFrame {
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, txtDni.getText());
             ResultSet rs = pst.executeQuery();
+            
         
             
              if (rs.next()) {
@@ -396,6 +398,8 @@ public class alumnos extends javax.swing.JFrame {
                 txtNombre.setText(rs.getString("nombre"));
                txtFecha.setDate(rs.getDate("fechaNacimiento"));
                comboEstado.setSelectedItem(rs.getString("estado"));
+                 btnGuardar.setEnabled(false);
+             
  
             } else {
                 JOptionPane.showMessageDialog(null, "No existe el alumno"); 
@@ -412,10 +416,10 @@ public class alumnos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BntBuscar;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnNuevo;
     private javax.swing.JComboBox<String> comboEstado;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
