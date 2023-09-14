@@ -41,34 +41,7 @@ public class AlumnoData {
     }
     
 
-    public static void GuardarAlumno(Alumno alumno){
-        alumnos alu = new alumnos();
-        String sql = "INSERT INTO alumno (dni, apellido, nombre, fechaNacimiento, estado) VALUES (?, ?, ?, ?, ?)";
- try {
- Connection con = Conexion.Conectar();
- PreparedStatement ps = con.prepareStatement(sql);
- 
- ps.setString(1, alu.txtDni.getText());
- ps.setString(2, alu.txtApellido.getText());
- ps.setString(3, alu.txtNombre.getText());
- ps.setDate(4, Date.valueOf(alu.txtFecha.getDateFormatString()));//localDate a Date
- //ps.setString(5, alu.comboEstado.getItemAt(1)); // if reducido
- ps.executeUpdate();
- ResultSet rs = ps.getGeneratedKeys();
- if (rs.next()) {
- alumno.setIdalumno(rs.getInt("idAlumno"));
- JOptionPane.showMessageDialog(null, "Alumno añadido con exito."); 
-
-}
- ps.close();
- } catch (SQLException ex) {
-JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Alumno"+ex.getMessage()); 
-        
-              
-
-        
-    }
-  }
+   
     
    
     
@@ -156,6 +129,7 @@ return alumno;
 List<Alumno> alumnos = new ArrayList<>();
  try {
  String sql = "SELECT * FROM alumno WHERE estado = 1 ";
+ Connection con = Conexion.Conectar();
  PreparedStatement ps = con.prepareStatement(sql);
  ResultSet rs = ps.executeQuery();
  while (rs.next()) {
