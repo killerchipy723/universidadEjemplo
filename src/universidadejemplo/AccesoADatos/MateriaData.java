@@ -46,8 +46,8 @@ public class MateriaData {
     
     public DefaultTableModel mostrarMaterias()
     {
-        String []  nombresColumnas = {"idMateria","nombre","año","Estado"};
-        String [] registros = new String[4];
+        String []  nombresColumnas = {"id","Nombre","Año"};
+        String [] registros = new String[3];
         
         DefaultTableModel modelo = new DefaultTableModel(null,nombresColumnas);
         
@@ -75,7 +75,7 @@ public class MateriaData {
                 
                 registros[2] = rs.getString("año");
                 
-                registros[3] = rs.getString("estado");               
+                    
                 
                 
                 modelo.addRow(registros);

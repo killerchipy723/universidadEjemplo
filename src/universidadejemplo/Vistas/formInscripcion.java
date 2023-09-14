@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -36,6 +38,16 @@ public class formInscripcion extends javax.swing.JFrame {
         tablaMaterias.setModel(modelo);
         
     }
+    public void inscripcion(){
+        String slq = "INSERT INTO inscripcion(nota,idAlumno,idMateria)VALUES (?,?,?)";
+        Connection con = Conexion.Conectar();
+        try {
+            PreparedStatement pst = con.prepareStatement(slq);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(formInscripcion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
   
     @SuppressWarnings("unchecked")
@@ -48,13 +60,13 @@ public class formInscripcion extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         comboAlumnos = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        radioSi = new javax.swing.JRadioButton();
+        radioNo = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaMaterias = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnInscribir = new javax.swing.JButton();
+        btnAnular = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -110,9 +122,19 @@ public class formInscripcion extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(0, 102, 153));
         jLabel3.setText("Listado de Materia");
 
-        jRadioButton1.setText("Materias Inscriptas");
+        radioSi.setText("Materias Inscriptas");
+        radioSi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioSiActionPerformed(evt);
+            }
+        });
 
-        jRadioButton2.setText("Materias no Inscriptas");
+        radioNo.setText("Materias no Inscriptas");
+        radioNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioNoActionPerformed(evt);
+            }
+        });
 
         tablaMaterias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -124,17 +146,17 @@ public class formInscripcion extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tablaMaterias);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/inscripcion.png"))); // NOI18N
-        jButton1.setText("Inscribir");
+        btnInscribir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/inscripcion.png"))); // NOI18N
+        btnInscribir.setText("Inscribir");
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cancelar.png"))); // NOI18N
-        jButton2.setText("Anular Inscripcion");
+        btnAnular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cancelar.png"))); // NOI18N
+        btnAnular.setText("Anular Inscripcion");
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/salir.png"))); // NOI18N
-        jButton3.setText("Salir");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/salir.png"))); // NOI18N
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnSalirActionPerformed(evt);
             }
         });
 
@@ -155,9 +177,9 @@ public class formInscripcion extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(138, 138, 138)
-                .addComponent(jRadioButton1)
+                .addComponent(radioSi)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jRadioButton2)
+                .addComponent(radioNo)
                 .addGap(97, 97, 97))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -165,11 +187,11 @@ public class formInscripcion extends javax.swing.JFrame {
                 .addGap(47, 47, 47))
             .addGroup(layout.createSequentialGroup()
                 .addGap(118, 118, 118)
-                .addComponent(jButton1)
+                .addComponent(btnInscribir)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(btnAnular)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3)
+                .addComponent(btnSalir)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -182,24 +204,38 @@ public class formInscripcion extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2))
+                    .addComponent(radioSi)
+                    .addComponent(radioNo))
                 .addGap(29, 29, 29)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(btnInscribir)
+                    .addComponent(btnAnular)
+                    .addComponent(btnSalir))
                 .addGap(0, 47, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
        dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void radioSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioSiActionPerformed
+       
+        btnInscribir.setEnabled(false);
+         btnAnular.setEnabled(true);
+         radioNo.setSelected(false);
+        
+    }//GEN-LAST:event_radioSiActionPerformed
+
+    private void radioNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioNoActionPerformed
+        btnAnular.setEnabled(false);
+        btnInscribir.setEnabled(true);
+         radioSi.setSelected(false);
+    }//GEN-LAST:event_radioNoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -237,18 +273,18 @@ public class formInscripcion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAnular;
+    private javax.swing.JButton btnInscribir;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> comboAlumnos;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JRadioButton radioNo;
+    private javax.swing.JRadioButton radioSi;
     private javax.swing.JTable tablaMaterias;
     // End of variables declaration//GEN-END:variables
 
