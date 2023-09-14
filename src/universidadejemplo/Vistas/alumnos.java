@@ -75,6 +75,7 @@ public class alumnos extends javax.swing.JFrame {
         btnGuardar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
@@ -142,6 +143,17 @@ public class alumnos extends javax.swing.JFrame {
                 txtApellidoActionPerformed(evt);
             }
         });
+        txtApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtApellidoKeyTyped(evt);
+            }
+        });
+
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
 
         jLabel5.setText("Fecha de Nacimiento(*)");
 
@@ -175,7 +187,7 @@ public class alumnos extends javax.swing.JFrame {
                     .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -211,6 +223,8 @@ public class alumnos extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 153, 204)));
+
         btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nuevo.png"))); // NOI18N
         btnNuevo.setText("Nuevo");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -238,20 +252,30 @@ public class alumnos extends javax.swing.JFrame {
             }
         });
 
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/modificar.png"))); // NOI18N
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(97, Short.MAX_VALUE)
+                .addGap(51, 51, 51)
                 .addComponent(btnNuevo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnGuardar)
                 .addGap(18, 18, 18)
                 .addComponent(btnEliminar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnActualizar)
                 .addGap(18, 18, 18)
                 .addComponent(jButton5)
-                .addGap(28, 28, 28))
+                .addGap(90, 90, 90))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,7 +285,8 @@ public class alumnos extends javax.swing.JFrame {
                     .addComponent(btnNuevo)
                     .addComponent(btnGuardar)
                     .addComponent(btnEliminar)
-                    .addComponent(jButton5))
+                    .addComponent(jButton5)
+                    .addComponent(btnActualizar))
                 .addContainerGap(46, Short.MAX_VALUE))
         );
 
@@ -274,16 +299,16 @@ public class alumnos extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 11, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(88, 88, 88))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel8)
-                        .addGap(234, 234, 234))))
+                        .addGap(234, 234, 234))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -316,16 +341,21 @@ public class alumnos extends javax.swing.JFrame {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
        txtDni.setText("");
+       txtId.setText("");
         txtApellido.setText("");
          txtNombre.setText("");        
            txtDni.requestFocus();
            txtFecha.setDate(null);
            comboEstado.setSelectedIndex(0);
            btnGuardar.setEnabled(true);
+           btnEliminar.setEnabled(false);
+           btnActualizar.setEnabled(false);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void BntBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BntBuscarActionPerformed
        buscarDni();
+        btnEliminar.setEnabled(true);
+           btnActualizar.setEnabled(true);
     }//GEN-LAST:event_BntBuscarActionPerformed
 
     private void txtDniKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDniKeyTyped
@@ -337,6 +367,25 @@ public class alumnos extends javax.swing.JFrame {
                 }
             
     }//GEN-LAST:event_txtDniKeyTyped
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        actualizarAlumnos();
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void txtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidoKeyTyped
+        char c=evt.getKeyChar();
+        if(Character.isLowerCase(c)){
+        String cad=(""+c).toUpperCase();
+        c=cad.charAt(0);
+        evt.setKeyChar(c);
+}
+    }//GEN-LAST:event_txtApellidoKeyTyped
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+  
+  
+           
+    }//GEN-LAST:event_txtNombreKeyTyped
 
     /**
      * @param args the command line arguments
@@ -430,10 +479,29 @@ public class alumnos extends javax.swing.JFrame {
 
 
      }
+     
+public void actualizarAlumnos(){
+          try {
+            Connection con = Conexion.Conectar();
+            PreparedStatement pst = con.prepareStatement("UPDATE alumno SET apellido = '"+txtApellido.getText()+"',nombre ='"+txtNombre.getText()+"',estado = '"+comboEstado.getSelectedItem()+"'WHERE dni = '"+txtDni.getText()+"'" );
+            
+          
+            if(txtApellido.getText()!=null && txtNombre.getText()!=null && txtFecha.getDate()!=null && comboEstado.getItemAt(WIDTH)!=null){
+                pst.executeUpdate();
+                JOptionPane.showMessageDialog(this,"Registro de Alumno Actualizado");
+            }else{
+                JOptionPane.showMessageDialog(this,"Error al Guardar el registro de Alumno");
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(materias.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
         
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BntBuscar;
+    private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
