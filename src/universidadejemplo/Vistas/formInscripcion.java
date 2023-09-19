@@ -28,7 +28,7 @@ public class formInscripcion extends javax.swing.JFrame {
         initComponents();
         listaAlumnos(comboAlumnos);
         setLocationRelativeTo(null);
-        mostrarMaterias();
+        
    
        
     }
@@ -238,6 +238,7 @@ public class formInscripcion extends javax.swing.JFrame {
         btnInscribir.setEnabled(false);
          btnAnular.setEnabled(true);
          radioNo.setSelected(false);
+         mostrarMaterias();
          
         
     }//GEN-LAST:event_radioSiActionPerformed
