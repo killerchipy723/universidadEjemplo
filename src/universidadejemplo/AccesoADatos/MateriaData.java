@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -107,4 +108,44 @@ public class MateriaData {
         }
          return modelo;
     }
-}
+    
+ 
+  public List <Materia> listarMaterias ()   {
+      
+  
+      List<Materia> materias = new ArrayList<>();
+      
+      
+      try {
+ String sql = "SELECT * FROM materia WHERE estado = 1 ";
+ Connection con = Conexion.Conectar();
+ PreparedStatement ps = con.prepareStatement(sql);
+ ResultSet rs = ps.executeQuery();
+ while (rs.next()) {
+Materia materia = new Materia();
+materia.setIdmateria(rs.getInt("idmateria"));
+materia.setNombre(rs.getString("nombre"));
+materia.setAniomateria(rs.getInt("año"));
+materia.setActivo(rs.getBoolean("estado"));
+materias.add(materia);
+
+
+
+
+ }
+ps.close();
+
+
+ } catch (SQLException ex) {
+ JOptionPane.showMessageDialog(null, " Error al acceder a la tabla Alumno "+ex.getMessage());
+ }
+
+      
+      
+  
+    
+    
+
+      return materias;
+  }
+} 
