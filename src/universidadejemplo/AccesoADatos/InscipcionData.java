@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import universidadejemplo.Entidades.Inscripcion;
+import universidadejemplo.Vistas.formInscripcion;
 
 public class InscipcionData {
   
@@ -41,21 +42,27 @@ public class InscipcionData {
         }
     }
     
-//    public List <Inscripcion> ObtenerInscripciones(){
-        
-  //  }
-    
-    //public List <Inscripcion> ObtenerInscripcionesPorAlumno(int id){
-        
-   // }
-    
-    //public List <Inscripcion> ObtenerMateriasCursadas(int id){
-        
-    //}
-    
-    //public List <Inscripcion> ObtenerMateriasNOCursadas(int id){
-        
-   //}
+// private void cargarInscripcion(){
+//            formInscripcion frmIns = new formInscripcion();
+//        try {
+//            Connection con = Conexion.Conectar();
+//            String sql = "INSERT INTO inscripcion (nota,idAlumno,idMateria) VALUES (?,?,?)" ;
+//            PreparedStatement stm = con.prepareStatement(sql);
+//            String selectedItem = (String) frmIns.comboAlumnos.getSelectedItem();
+//            String[] parts = selectedItem.split("-");
+//            int idAlumno = Integer.parseInt(parts[0]);
+//            
+//            stm.setString(1, "0");
+//           stm.setInt(2, idAlumno);
+//            int selectedRow = frmIns.tablaMaterias.getSelectedRow();
+//             stm.setString(3, frmIns.tablaMaterias.getValueAt(selectedRow, 0).toString());
+//             
+//            stm.executeUpdate();
+//            JOptionPane.showMessageDialog(frmIns, "La inscripcion del Alumno se Realizó Correctamente");
+//        } catch (SQLException ex) {
+//            Logger.getLogger(formInscripcion.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 
   public void BorrarInscripcionMateriaAlumno (int idAlumno, int idMateria){
       
@@ -71,3 +78,4 @@ public class InscipcionData {
     
     
 }
+ 

@@ -93,6 +93,12 @@ public class formInscripcion extends javax.swing.JFrame {
 
         jLabel2.setText("Seleccione un Alumno");
 
+        comboAlumnos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboAlumnosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -245,6 +251,10 @@ public class formInscripcion extends javax.swing.JFrame {
         cargarInscripcion();
     }//GEN-LAST:event_btnInscribirActionPerformed
 
+    private void comboAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAlumnosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboAlumnosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -284,7 +294,7 @@ public class formInscripcion extends javax.swing.JFrame {
     private javax.swing.JButton btnAnular;
     private javax.swing.JButton btnInscribir;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JComboBox<String> comboAlumnos;
+    public javax.swing.JComboBox<String> comboAlumnos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -293,7 +303,7 @@ public class formInscripcion extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JRadioButton radioNo;
     private javax.swing.JRadioButton radioSi;
-    private javax.swing.JTable tablaMaterias;
+    public javax.swing.JTable tablaMaterias;
     private javax.swing.JLabel txtNota;
     // End of variables declaration//GEN-END:variables
 
@@ -315,7 +325,7 @@ alumno.setApellido(rs.getString("apellido"));
  alumno.setNombre(rs.getString("nombre"));
  //alumno.setFechadenacimiento(rs.getDate("fechadenacimiento").toLocalDate());
 alumno.setEstado(rs.getBoolean("estado"));
-combo.addElement(alumno.getIdalumno());
+combo.addElement(alumno.getIdalumno()+"-"+alumno.getApellido()+", "+alumno.getNombre());
  }
 ps.close();
 
@@ -334,9 +344,12 @@ ps.close();
             Connection con = Conexion.Conectar();
             String sql = "INSERT INTO inscripcion (nota,idAlumno,idMateria) VALUES (?,?,?)" ;
             PreparedStatement stm = con.prepareStatement(sql);
-            //int fila = tablaMaterias.getSelectedRow(); 
+            String selectedItem = (String) comboAlumnos.getSelectedItem();
+            String[] parts = selectedItem.split("-");
+            int idAlumno = Integer.parseInt(parts[0]);
+            
             stm.setString(1, "0");
-            stm.setString(2,comboAlumnos.getSelectedItem().toString());
+           stm.setInt(2, idAlumno);
             int selectedRow = tablaMaterias.getSelectedRow();
              stm.setString(3, tablaMaterias.getValueAt(selectedRow, 0).toString());
              
