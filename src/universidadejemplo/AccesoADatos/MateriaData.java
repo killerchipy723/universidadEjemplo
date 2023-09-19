@@ -11,9 +11,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import universidadejemplo.Entidades.Materia;
+import universidadejemplo.Vistas.formInscripcion;
 
 /**
  *
@@ -52,7 +54,7 @@ public class MateriaData {
         
         DefaultTableModel modelo = new DefaultTableModel(null,nombresColumnas);
         
-        String sql = "SELECT inscripcion.idMateria, nombre, año FROM inscripcion JOIN materia ON(inscripcion.idMateria=materia.idMateria) WHERE inscripcion.idAlumno = ?";
+        String sql = "SELECT * FROM materia";
         
         Connection cn = null;
         
@@ -148,4 +150,71 @@ ps.close();
 
       return materias;
   }
+  
+  
+  
+  ///Listar Materias Inscriptas por el alumno
+  public DefaultTableModel mostrarMateriaCursadas()
+    {
+
+        formInscripcion frm = new formInscripcion();
+     
+        String selectedItem = (String) frm.comboAlumnos.getSelectedItem();
+            String[] parts = selectedItem.split("-");
+            int idAlumno = Integer.parseInt(parts[0]);
+        String []  nombresColumnas = {"id","Nombre","Año"};
+        String [] registros = new String[3];
+        
+        DefaultTableModel modelo1 = new DefaultTableModel(null,nombresColumnas);        
+        String sql = "SELECT inscripcion.idMateria, nombre, año FROM inscripcion JOIN materia ON(inscripcion.idMateria=materia.idMateria) WHERE inscripcion.idAlumno ="+idAlumno+"" ;
+        
+        Connection cn = null;        
+        PreparedStatement pst = null;        
+        ResultSet rs = null;
+        
+        try{
+            cn = Conexion.Conectar();            
+            pst = cn.prepareStatement(sql);        
+            
+            rs = pst.executeQuery();            
+            while(rs.next())
+            {
+                registros[0] = rs.getString("idMateria");
+                
+                registros[1] = rs.getString("nombre");
+                
+                registros[2] = rs.getString("año");       
+                    
+                
+                
+                modelo1.addRow(registros);
+                
+            }
+            
+           
+        }
+        catch(SQLException e)        {
+            
+            JOptionPane.showMessageDialog(null,"Error al conectar");
+            
+        }
+        finally
+        {
+            try
+            {
+                if (rs != null) rs.close();
+                
+                if (pst != null) pst.close();
+                
+                if (cn != null) cn.close();
+            }
+            catch(SQLException e)
+            {
+                JOptionPane.showMessageDialog(null,e);
+            }
+        }
+         return modelo1;
+    }
+  
+  
 } 

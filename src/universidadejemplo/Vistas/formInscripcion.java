@@ -41,6 +41,13 @@ public class formInscripcion extends javax.swing.JFrame {
         tablaMaterias.setModel(modelo);
         
     }
+    public void mostrarMat(){
+       MateriaData mdatas = new MateriaData();
+        
+        DefaultTableModel modelo1 = mdatas.mostrarMateriaCursadas();
+        
+        tablaMaterias.setModel(modelo1);
+    }
     
    
 
@@ -238,7 +245,8 @@ public class formInscripcion extends javax.swing.JFrame {
         btnInscribir.setEnabled(false);
          btnAnular.setEnabled(true);
          radioNo.setSelected(false);
-         mostrarMaterias();
+         mostrarMat();
+       
          
         
     }//GEN-LAST:event_radioSiActionPerformed
@@ -361,21 +369,7 @@ ps.close();
             Logger.getLogger(formInscripcion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void filtrarAlumnosInscriptos(){
-    String sql = "SELECT inscripcion.idMateria, nombre, año FROM inscripcion JOIN materia ON(inscripcion.idMateria=materia.idMateria) WHERE inscripcion.idAlumno = 2";
-    Connection con = Conexion.Conectar();
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(formInscripcion.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-     
- }
+   
          }
 
     
