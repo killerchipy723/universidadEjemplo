@@ -19,6 +19,7 @@ import universidadejemplo.AccesoADatos.AlumnoData;
 import universidadejemplo.AccesoADatos.Conexion;
 import universidadejemplo.AccesoADatos.MateriaData;
 import universidadejemplo.Entidades.Alumno;
+import universidadejemplo.Entidades.Inscripcion;
 
 
 public class formInscripcion extends javax.swing.JFrame {
@@ -28,6 +29,8 @@ public class formInscripcion extends javax.swing.JFrame {
         listaAlumnos(comboAlumnos);
         setLocationRelativeTo(null);
         mostrarMaterias();
+   
+       
     }
     public void mostrarMaterias()
     {
@@ -38,16 +41,8 @@ public class formInscripcion extends javax.swing.JFrame {
         tablaMaterias.setModel(modelo);
         
     }
-    public void inscripcion(){
-        String slq = "INSERT INTO inscripcion(nota,idAlumno,idMateria)VALUES (?,?,?)";
-        Connection con = Conexion.Conectar();
-        try {
-            PreparedStatement pst = con.prepareStatement(slq);
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(formInscripcion.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    
+   
 
   
     @SuppressWarnings("unchecked")
@@ -67,6 +62,7 @@ public class formInscripcion extends javax.swing.JFrame {
         btnInscribir = new javax.swing.JButton();
         btnAnular = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
+        txtNota = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -148,6 +144,11 @@ public class formInscripcion extends javax.swing.JFrame {
 
         btnInscribir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/inscripcion.png"))); // NOI18N
         btnInscribir.setText("Inscribir");
+        btnInscribir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInscribirActionPerformed(evt);
+            }
+        });
 
         btnAnular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cancelar.png"))); // NOI18N
         btnAnular.setText("Anular Inscripcion");
@@ -173,7 +174,8 @@ public class formInscripcion extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(253, 253, 253)
                         .addComponent(jLabel3)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtNota)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(138, 138, 138)
@@ -201,7 +203,9 @@ public class formInscripcion extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtNota))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(radioSi)
@@ -236,6 +240,10 @@ public class formInscripcion extends javax.swing.JFrame {
         btnInscribir.setEnabled(true);
          radioSi.setSelected(false);
     }//GEN-LAST:event_radioNoActionPerformed
+
+    private void btnInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInscribirActionPerformed
+        cargarInscripcion();
+    }//GEN-LAST:event_btnInscribirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -286,6 +294,7 @@ public class formInscripcion extends javax.swing.JFrame {
     private javax.swing.JRadioButton radioNo;
     private javax.swing.JRadioButton radioSi;
     private javax.swing.JTable tablaMaterias;
+    private javax.swing.JLabel txtNota;
     // End of variables declaration//GEN-END:variables
 
     private void listaAlumnos(JComboBox c) {
@@ -306,7 +315,7 @@ alumno.setApellido(rs.getString("apellido"));
  alumno.setNombre(rs.getString("nombre"));
  //alumno.setFechadenacimiento(rs.getDate("fechadenacimiento").toLocalDate());
 alumno.setEstado(rs.getBoolean("estado"));
-combo.addElement(alumno.getIdalumno()+ " - "+alumno.getApellido()+" - " + alumno.getNombre()+" - "+alumno.getDni());
+combo.addElement(alumno.getIdalumno());
  }
 ps.close();
 
@@ -319,6 +328,23 @@ ps.close();
         
         
         
+    }
+    private void cargarInscripcion(){
+        try {
+            Connection con = Conexion.Conectar();
+            String sql = "INSERT INTO inscripcion (nota,idAlumno,idMateria) VALUES (?,?,?)" ;
+            PreparedStatement stm = con.prepareStatement(sql);
+            //int fila = tablaMaterias.getSelectedRow(); 
+            stm.setString(1, "0");
+            stm.setString(2,comboAlumnos.getSelectedItem().toString());
+            int selectedRow = tablaMaterias.getSelectedRow();
+             stm.setString(3, tablaMaterias.getValueAt(selectedRow, 0).toString());
+             
+            stm.executeUpdate();
+            JOptionPane.showMessageDialog(this, "La inscripcion del Alumno se Realizó Correctamente");
+        } catch (SQLException ex) {
+            Logger.getLogger(formInscripcion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     
