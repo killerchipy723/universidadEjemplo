@@ -216,5 +216,41 @@ ps.close();
          return modelo1;
     }
   
+  public Materia BuscarMateria(int id){
+    
+   Materia materia = null;
+ String sql = "SELECT nombre,año,estado FROM Materia WHERE idMateria = ? AND estado = 1";
+ PreparedStatement ps = null;
+ try {
+ ps = con.prepareStatement(sql);
+ //carga bd ob
+ ps.setInt(1,id );
+ ResultSet rs = ps.executeQuery();
+
+ if (rs.next()) {
+materia=new Materia();
+materia.setIdmateria(id);
+materia.setAniomateria(rs.getInt("año"));
+
+materia.setNombre(rs.getString("nombre"));
+
+materia.setActivo(true);
+
+
+ } else {
+ JOptionPane.showMessageDialog(null, "No existe materia");
+
+
+
+ ps.close();
+ }
+ } 
+ catch (SQLException ex) {
+ JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Alumno "+ex.getMessage()); 
+
+}
+ return materia;
+}
+  
   
 } 
