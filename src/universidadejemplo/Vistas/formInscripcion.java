@@ -7,12 +7,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import universidadejemplo.AccesoADatos.AlumnoData;
 
@@ -23,30 +25,36 @@ import universidadejemplo.Entidades.Inscripcion;
 
 
 public class formInscripcion extends javax.swing.JFrame {
+MateriaData mData = new MateriaData();
 
+AlumnoData aData;
+ArrayList lista;
+Conexion con;
     public formInscripcion() {
         initComponents();
-        listaAlumnos(comboAlumnos);
+        btnAnular.setEnabled(false);
+         btnInscribir.setEnabled(false);
+     mData.cargarAlumnos("alumno","idAlumno", "nombre","apellido", comboAlumnos);
+     radioSi.hasFocus();
+      
+        
+                
+       // listaAlumnos(comboAlumnos);
+        //lista = new ArrayList();
+        //llenarComboAlumnos();
         setLocationRelativeTo(null);
         
    
        
     }
+ 
     public void mostrarMaterias()
     {
-        MateriaData mdata = new MateriaData();
         
-        DefaultTableModel modelo = mdata.mostrarMaterias();
-        
-        tablaMaterias.setModel(modelo);
         
     }
     public void mostrarMat(){
-       MateriaData mdatas = new MateriaData();
-        
-        DefaultTableModel modelo1 = mdatas.mostrarMateriaCursadas();
-        
-        tablaMaterias.setModel(modelo1);
+       
     }
     
    
@@ -100,6 +108,11 @@ public class formInscripcion extends javax.swing.JFrame {
 
         jLabel2.setText("Seleccione un Alumno");
 
+        comboAlumnos.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboAlumnosItemStateChanged(evt);
+            }
+        });
         comboAlumnos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboAlumnosActionPerformed(evt);
@@ -165,6 +178,11 @@ public class formInscripcion extends javax.swing.JFrame {
 
         btnAnular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cancelar.png"))); // NOI18N
         btnAnular.setText("Anular Inscripcion");
+        btnAnular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnularActionPerformed(evt);
+            }
+        });
 
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/salir.png"))); // NOI18N
         btnSalir.setText("Salir");
@@ -241,13 +259,17 @@ public class formInscripcion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void radioSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioSiActionPerformed
-       
-        btnInscribir.setEnabled(false);
+         btnInscribir.setEnabled(false);
          btnAnular.setEnabled(true);
          radioNo.setSelected(false);
-         mostrarMat();
+         listaInsripto();
+        
+    
+          
+      
+      
        
-         
+       
         
     }//GEN-LAST:event_radioSiActionPerformed
 
@@ -255,6 +277,10 @@ public class formInscripcion extends javax.swing.JFrame {
         btnAnular.setEnabled(false);
         btnInscribir.setEnabled(true);
          radioSi.setSelected(false);
+         listaNoInscripto();
+         
+    
+       
     }//GEN-LAST:event_radioNoActionPerformed
 
     private void btnInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInscribirActionPerformed
@@ -264,6 +290,21 @@ public class formInscripcion extends javax.swing.JFrame {
     private void comboAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAlumnosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboAlumnosActionPerformed
+
+    private void btnAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnularActionPerformed
+        anularInscripcion();
+    }//GEN-LAST:event_btnAnularActionPerformed
+
+    private void comboAlumnosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboAlumnosItemStateChanged
+        if(radioSi.isSelected()){
+           listaInsripto(); 
+        }else{
+            if(radioNo.isSelected()){
+                listaNoInscripto();
+               
+            }
+        }
+    }//GEN-LAST:event_comboAlumnosItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -304,7 +345,7 @@ public class formInscripcion extends javax.swing.JFrame {
     private javax.swing.JButton btnAnular;
     private javax.swing.JButton btnInscribir;
     private javax.swing.JButton btnSalir;
-    public javax.swing.JComboBox<String> comboAlumnos;
+    public javax.swing.JComboBox<Alumno> comboAlumnos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -354,23 +395,105 @@ ps.close();
             Connection con = Conexion.Conectar();
             String sql = "INSERT INTO inscripcion (nota,idAlumno,idMateria) VALUES (?,?,?)" ;
             PreparedStatement stm = con.prepareStatement(sql);
-            String selectedItem = (String) comboAlumnos.getSelectedItem();
-            String[] parts = selectedItem.split("-");
-            int idAlumno = Integer.parseInt(parts[0]);
-            
+            Object idAlu = comboAlumnos.getSelectedIndex()+1;            
             stm.setString(1, "0");
-           stm.setInt(2, idAlumno);
+            stm.setInt(2, (int) idAlu);
             int selectedRow = tablaMaterias.getSelectedRow();
-             stm.setString(3, tablaMaterias.getValueAt(selectedRow, 0).toString());
+            stm.setString(3, tablaMaterias.getValueAt(selectedRow, 0).toString());
              
             stm.executeUpdate();
             JOptionPane.showMessageDialog(this, "La inscripcion del Alumno se Realizó Correctamente");
+            listaNoInscripto();
         } catch (SQLException ex) {
             Logger.getLogger(formInscripcion.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(ArrayIndexOutOfBoundsException ex){
+            JOptionPane.showMessageDialog(this,"No has seleccionado una materia");
         }
     }
-   
+     private void anularInscripcion(){
+        try {
+            Connection con = Conexion.Conectar();
+            String sql = "DELETE FROM inscripcion  WHERE idAlumno = ? AND idMateria =?" ;
+            PreparedStatement stm = con.prepareStatement(sql);
+            Object idAlu = comboAlumnos.getSelectedIndex()+1;            
+            System.out.println(""+idAlu);
+            stm.setInt(1, (int) idAlu);
+            int selectedRow = tablaMaterias.getSelectedRow();
+            Object idAlumno = tablaMaterias.getValueAt(selectedRow, 0);
+            int id = (int) idAlumno;
+            stm.setInt(2, (int) id);
+            System.out.println(""+idAlumno);
+           if (JOptionPane.showConfirmDialog(rootPane, "¿Estas seguro de eliminar la inscripcion?","Eliminar Registro de Inscripción", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+                stm.executeUpdate();
+                comboAlumnos.getSelectedIndex();
+                JOptionPane.showMessageDialog(this, "Se eliminó el registro");
+                listaInsripto();
+           }
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(formInscripcion.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(ArrayIndexOutOfBoundsException ex){
+            JOptionPane.showMessageDialog(this,"No has seleccionado una materia");
+        }
+    }
+     public void listaInsripto(){
+           MateriaData mt = new MateriaData();
+        //mData.cargarAlumnos("alumno","idAlumno", "nombre","apellido", comboAlumnos);
+        Object idAl = comboAlumnos.getSelectedIndex()+1;
+        String sql = "SELECT materia.idMateria, nombre, año "
+                + "FROM materia JOIN inscripcion "
+                + "ON(inscripcion.idMateria=materia.idMateria) "
+                + "WHERE inscripcion.idAlumno = "+idAl+"";
+        
+        DefaultTableModel modelo = new DefaultTableModel();
+        Connection con = Conexion.Conectar();
+        try {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            modelo.setColumnIdentifiers(new Object[]{"ID","NOMBRE","AÑO"});
+            while(rs.next()){
+                modelo.addRow(new Object[]{
+                   rs.getInt("idMateria"),
+                    rs.getString("nombre"),
+                    rs.getInt("año")});
+                
+            }
+            tablaMaterias.setModel(modelo);
+            con.close();
+        } catch (Exception e) {
+          
+        }
+     }
+     public void listaNoInscripto(){
+          //mData.cargarAlumnos("alumno","idAlumno", "nombre","apellido", comboAlumnos);
+        Object id = comboAlumnos.getSelectedIndex()+1;
+        String sql = "SELECT materia.idMateria, nombre, año FROM materia LEFT JOIN inscripcion ON (materia.idMateria = inscripcion.idMateria AND inscripcion.idAlumno = "+id+") WHERE inscripcion.idMateria IS NULL";
+        DefaultTableModel mlo = new DefaultTableModel();
+        Connection con = Conexion.Conectar();
+        try {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            mlo.setColumnIdentifiers(new Object[]{"ID","NOMBRE","AÑO"});
+            while(rs.next()){
+                mlo.addRow(new Object[]{
+                   rs.getInt("idMateria"),
+                    rs.getString("nombre"),
+                    rs.getInt("año")});
+                
+            }
+            tablaMaterias.setModel(mlo);
+            con.close();
+        } catch (Exception e) {
+        }
+     }
+
+    void listaInsripto(JTable tablaMaterias) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
          }
+
+
+ 
 
     
 

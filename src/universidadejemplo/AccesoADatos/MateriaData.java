@@ -9,11 +9,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import universidadejemplo.Entidades.Alumno;
 import universidadejemplo.Entidades.Materia;
 import universidadejemplo.Vistas.formInscripcion;
 
@@ -154,66 +157,45 @@ ps.close();
   
   
   ///Listar Materias Inscriptas por el alumno
-  public DefaultTableModel mostrarMateriaCursadas()
-    {
 
-        formInscripcion frm = new formInscripcion();
-     
-        String selectedItem = (String) frm.comboAlumnos.getSelectedItem();
-            String[] parts = selectedItem.split("-");
-            int idAlumno = Integer.parseInt(parts[0]);
-        String []  nombresColumnas = {"id","Nombre","Año"};
-        String [] registros = new String[3];
-        
-        DefaultTableModel modelo1 = new DefaultTableModel(null,nombresColumnas);        
-        String sql = "SELECT inscripcion.idMateria, nombre, año FROM inscripcion JOIN materia ON(inscripcion.idMateria=materia.idMateria) WHERE inscripcion.idAlumno ="+idAlumno+"" ;
-        
-        Connection cn = null;        
-        PreparedStatement pst = null;        
-        ResultSet rs = null;
-        
-        try{
-            cn = Conexion.Conectar();            
-            pst = cn.prepareStatement(sql);        
-            
-            rs = pst.executeQuery();            
-            while(rs.next())
-            {
-                registros[0] = rs.getString("idMateria");
-                
-                registros[1] = rs.getString("nombre");
-                
-                registros[2] = rs.getString("año");       
-                    
-                
-                
-                modelo1.addRow(registros);
-                
-            }
-            
-           
-        }
-        catch(SQLException e)        {
-            
-            JOptionPane.showMessageDialog(null,"Error al conectar");
-            
-        }
-        finally
-        {
-            try
-            {
-                if (rs != null) rs.close();
-                
-                if (pst != null) pst.close();
-                
-                if (cn != null) cn.close();
-            }
-            catch(SQLException e)
-            {
-                JOptionPane.showMessageDialog(null,e);
-            }
-        }
-         return modelo1;
+  public void cargarAlumnos(String tabla,String valor,String valor1,String valor2, JComboBox combo){
+      String sql = "select * from " + tabla;
+      Statement st;
+      Connection con = Conexion.Conectar();
+      try {
+          st = con.createStatement();
+          ResultSet rs = st.executeQuery(sql);
+          while(rs.next()){
+            combo.addItem(rs.getInt(valor)+" - "+rs.getString(valor1)+", "+rs.getString(valor2));
+          }
+      } catch (SQLException e) {
+      }
+      
+      
+  }
+
+    public void mostrarMateriaCursadas(JComboBox<Alumno> comboAlumnos) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+  
+    public void cargarMaterias(String tabla,String valor, JComboBox combo){
+      String sql = "select * from " + tabla;
+      Statement st;
+      Connection con = Conexion.Conectar();
+      try {
+          st = con.createStatement();
+          ResultSet rs = st.executeQuery(sql);
+          while(rs.next()){
+            combo.addItem(rs.getString(valor));
+          }
+      } catch (SQLException e) {
+      }
+      
+      
+  }
+
+    public void cargarMaterias(JComboBox<Alumno> comboAlumnos) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
   
   
