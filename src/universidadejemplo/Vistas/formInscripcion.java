@@ -1,6 +1,8 @@
 
 package universidadejemplo.Vistas;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,6 +34,7 @@ ArrayList lista;
 Conexion con;
     public formInscripcion() {
         initComponents();
+         setIconImage(getImageIcon());
         btnAnular.setEnabled(false);
          btnInscribir.setEnabled(false);
      mData.cargarAlumnos("alumno","idAlumno", "nombre","apellido", comboAlumnos);
@@ -46,6 +49,10 @@ Conexion con;
         
    
        
+    }
+    public Image getImageIcon(){
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("img/icono.png"));
+        return retValue;
     }
  
     public void mostrarMaterias()
@@ -80,6 +87,7 @@ Conexion con;
         txtNota = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Sisema Integral - Universidad de la Punta - San Luis");
 
         jPanel1.setBackground(new java.awt.Color(0, 51, 102));
 

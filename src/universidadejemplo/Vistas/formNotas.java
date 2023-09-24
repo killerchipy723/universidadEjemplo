@@ -1,6 +1,8 @@
 
 package universidadejemplo.Vistas;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,8 +21,14 @@ formInscripcion form = new formInscripcion();
    
     public formNotas() {
         initComponents();
+      setIconImage(getImageIcon());
         setLocationRelativeTo(null);
         mData.cargarAlumnos("alumno","idAlumno", "nombre","apellido", comboAlumnos);
+    }
+    
+    public Image getImageIcon(){
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("img/icono.png"));
+        return retValue;
     }
 
     @SuppressWarnings("unchecked")

@@ -11,9 +11,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLSyntaxErrorException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.eclipse.persistence.internal.jpa.ExceptionFactory;
 import universidadejemplo.AccesoADatos.Conexion;
 
 /**
@@ -28,13 +30,16 @@ public class materias extends javax.swing.JFrame {
     public materias() {
         initComponents();
         setLocationRelativeTo(null);
+      
         comboEstado.addItem("0");
         comboEstado.addItem("1");
+    
         txtNombre.requestFocus();
         //txtCodigo.enable(false);
         setIconImage(getIconImage());
       btnEliminar.setEnabled(false);
       btnActualizar.setEnabled(false);
+   
         
     }
     //Cambiar Icono
@@ -313,7 +318,7 @@ actualizarMaterias();
         txtCodigo.setText("");
         txtNombre.setText("");
         txtAño.setText("");
-        comboEstado.setSelectedItem(null);
+     
         txtCodigo.setEnabled(true);
         btnGuardar.setEnabled(true);
         btnActualizar.setEnabled(false);
@@ -367,18 +372,28 @@ actualizarMaterias();
             PreparedStatement pst = con.prepareStatement("INSERT INTO materia(nombre,año,estado)VALUES(?,?,?)");
             pst.setString(1,txtNombre.getText());
             pst.setString(2,txtAño.getText());
-            pst.setString(3,comboEstado.getItemAt(WIDTH));
-            if(txtNombre.getText()!=null && txtAño.getText()!=null && comboEstado.getItemAt(WIDTH)!=null){
-                pst.executeUpdate();
-                JOptionPane.showMessageDialog(this,"Registro de materia Exitoso");
+            pst.setInt(3,comboEstado.getSelectedIndex());
+            int Select = (int) comboEstado.getSelectedIndex();
+            
+            if(txtNombre.getText().isEmpty() || txtAño.getText().isEmpty() || comboEstado.getSelectedIndex()==0){
+               JOptionPane.showMessageDialog(this,"Error al Guardar el Registro. Campos Vacios");
+               
+               txtNombre.requestFocus();
+                
             }else{
-                JOptionPane.showMessageDialog(this,"Error al Guardar el registro de materia");
+               
+               pst.executeUpdate();
+                JOptionPane.showMessageDialog(this,"Registro de materia exitoso");
             }
             
         } catch (SQLException ex) {
             Logger.getLogger(materias.class.getName()).log(Level.SEVERE, null, ex);
+        
+            
+       
+           }  
+       
         }
-    }
     // Metodo para buscar materias por Codigo
     public void buscarCodigo(){
         try {

@@ -34,6 +34,7 @@ public class alumnos extends javax.swing.JFrame {
     public alumnos() {
         initComponents();
         setLocationRelativeTo(null);
+         setIconImage(getImageIcon());
         comboEstado.addItem("0");
          comboEstado.addItem("1");
          txtId.enable(false);
