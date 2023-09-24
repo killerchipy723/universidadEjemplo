@@ -34,11 +34,13 @@ import universidadejemplo.Vistas.alumnos;
  */
 public class AlumnoData {
     Conexion con;
+     
      private String guardar;
 
     public AlumnoData() {
        
     }
+    
     
 
    
@@ -182,9 +184,10 @@ JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Alumno "+ex.get
     }
      
      public void EliminarAlumno(int id){
-         
+   String sql = "UPDATE alumno SET estado = 0 WHERE idAlumno = ? ";
+   
   try {
- String sql = "UPDATE alumno SET estado = 0 WHERE idAlumno = ? ";
+ 
  PreparedStatement ps = con.prepareStatement(sql);
  ps.setInt(1, id);
  int fila=ps.executeUpdate();
