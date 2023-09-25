@@ -218,7 +218,10 @@ formInscripcion form = new formInscripcion();
            MateriaData mt = new MateriaData();
         //mData.cargarAlumnos("alumno","idAlumno", "nombre","apellido", comboAlumnos);
         Object idAl = comboAlumnos.getSelectedIndex()+1;
-        String sql = "SELECT materia.idMateria, nombre, nota  FROM inscripcion JOIN materia  ON(inscripcion.idMateria=materia.idMateria)  WHERE inscripcion.idAlumno ="+idAl+"";
+        String sql = "SELECT materia.idMateria, nombre, nota  "
+                + "FROM inscripcion JOIN materia  "
+                + "ON(inscripcion.idMateria=materia.idMateria)  "
+                + "WHERE inscripcion.idAlumno ="+idAl+"";
         
         DefaultTableModel modelo = new DefaultTableModel();
         Connection con = Conexion.Conectar();
@@ -240,6 +243,7 @@ formInscripcion form = new formInscripcion();
         }
         
          }
+    //METODO PARA ACTUALIZAR NOTAS DESDE LA TABLA
     
 public void actualizarNota(){
            try {

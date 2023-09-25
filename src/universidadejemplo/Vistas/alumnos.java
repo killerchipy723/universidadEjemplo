@@ -27,14 +27,18 @@ import universidadejemplo.AccesoADatos.Conexion;
  * @author Dylan
  */
 public class alumnos extends javax.swing.JFrame {
-
+     AlumnoData aData = new AlumnoData();
     /**
      * Creates new form alumnos
      */
     public alumnos() {
         initComponents();
+        lblEstado.setText("");
+        
+               
         setLocationRelativeTo(null);
          setIconImage(getImageIcon());
+         comboEstado.setSelectedItem(null);
         comboEstado.addItem("0");
          comboEstado.addItem("1");
          txtId.enable(false);
@@ -71,6 +75,7 @@ public class alumnos extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
         txtFecha = new com.toedter.calendar.JDateChooser();
+        lblEstado = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
@@ -162,6 +167,11 @@ public class alumnos extends javax.swing.JFrame {
 
         jLabel7.setText("Id");
 
+        txtFecha.setDateFormatString("yyyy-MM-dd");
+
+        lblEstado.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblEstado.setText("Activo");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -182,11 +192,13 @@ public class alumnos extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(BntBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(comboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblEstado))
                     .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(txtFecha, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)))
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(155, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -219,7 +231,8 @@ public class alumnos extends javax.swing.JFrame {
                 .addGap(7, 7, 7)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(comboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblEstado))
                 .addContainerGap())
         );
 
@@ -243,6 +256,11 @@ public class alumnos extends javax.swing.JFrame {
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/salir.png"))); // NOI18N
         jButton5.setText("Salir");
@@ -336,6 +354,7 @@ public class alumnos extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         cargarAlumno();
+        limpiar();
        
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -356,6 +375,13 @@ public class alumnos extends javax.swing.JFrame {
        buscarDni();
         btnEliminar.setEnabled(true);
            btnActualizar.setEnabled(true);
+           if(comboEstado.getSelectedItem()== "0"){
+            lblEstado.setText("Alumno Inactivo");
+        }else{
+            if(comboEstado.getSelectedItem()== "1"){
+            lblEstado.setText("Alumno Activo");
+        }
+              }
     }//GEN-LAST:event_BntBuscarActionPerformed
 
     private void txtDniKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDniKeyTyped
@@ -370,6 +396,8 @@ public class alumnos extends javax.swing.JFrame {
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         actualizarAlumnos();
+        limpiar();
+        lblEstado.setText("");
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void txtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidoKeyTyped
@@ -386,6 +414,13 @@ public class alumnos extends javax.swing.JFrame {
   
            
     }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+       EliminarAlumno();
+       limpiar();
+       lblEstado.setText("");
+    
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -496,7 +531,44 @@ public void actualizarAlumnos(){
         } catch (SQLException ex) {
             Logger.getLogger(materias.class.getName()).log(Level.SEVERE, null, ex);
         }
+          
+          
+          
     }
+     public void EliminarAlumno(){
+        Connection con = Conexion.Conectar();
+        int codigo = Integer.parseInt(txtId.getText()); 
+         System.out.println(""+codigo);
+        
+   String sql = "UPDATE alumno SET estado = 0 WHERE idAlumno = "+codigo+"";
+   
+  try {
+ 
+ PreparedStatement ps = con.prepareStatement(sql);
+
+ int fila=ps.executeUpdate();
+ps.setString(1,txtId.getText());
+     
+if(fila==1){
+ JOptionPane.showMessageDialog(null, " Se eliminó el alumno.");
+}
+ps.close();
+ } catch (SQLException e) {
+    JOptionPane.showMessageDialog(null, " Error al acceder a la tabla Alumno");    
+         
+}   
+         
+     }
+     private void limpiar(){
+         txtId.setText("");
+         txtDni.setText("");
+         txtApellido.setText("");
+         txtNombre.setText("");
+         txtFecha.setDate(null);
+         comboEstado.setSelectedItem(null);
+         txtDni.requestFocus();
+         
+     }
         
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -519,10 +591,11 @@ public void actualizarAlumnos(){
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lblEstado;
     public javax.swing.JTextField txtApellido;
     public javax.swing.JTextField txtDni;
     private com.toedter.calendar.JDateChooser txtFecha;
-    private javax.swing.JTextField txtId;
+    public javax.swing.JTextField txtId;
     public javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

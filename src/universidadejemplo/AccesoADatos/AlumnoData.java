@@ -183,15 +183,18 @@ JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Alumno "+ex.get
         
     }
      
-     public void EliminarAlumno(int id){
-   String sql = "UPDATE alumno SET estado = 0 WHERE idAlumno = ? ";
+     public void EliminarAlumno(JTextField txtId){
+         alumnos alu = new alumnos();
+         
+   String sql = "UPDATE alumno SET estado = 0 WHERE idAlumno = ?";
    
   try {
  
  PreparedStatement ps = con.prepareStatement(sql);
- ps.setInt(1, id);
- int fila=ps.executeUpdate();
 
+ int fila=ps.executeUpdate();
+ps.setString(1,txtId.getText());
+      System.out.println(""+fila);
 if(fila==1){
  JOptionPane.showMessageDialog(null, " Se eliminó el alumno.");
 }
@@ -202,10 +205,11 @@ ps.close();
 }   
          
      }
-    public void mostrarAlumno(){
-        
-        
+
+    
+      
     }
+   
 
    
     
@@ -213,4 +217,4 @@ ps.close();
     
     
     
-}
+
