@@ -21,11 +21,11 @@ formInscripcion form = new formInscripcion();
    
     public formNotas() {
         initComponents();
-      setIconImage(getImageIcon());
+        setIconImage(getImageIcon());
         setLocationRelativeTo(null);
         mData.cargarAlumnos("alumno","idAlumno", "nombre","apellido", comboAlumnos);
     }
-    
+    //METODO PARA CAMBIAR ICONO DE BARRA DE ESTADO Y BARRA DE TITULO
     public Image getImageIcon(){
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("img/icono.png"));
         return retValue;
@@ -169,7 +169,7 @@ formInscripcion form = new formInscripcion();
     }// </editor-fold>//GEN-END:initComponents
 
     private void comboAlumnosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboAlumnosItemStateChanged
-         verNotas();
+        mostrarNotas();
     }//GEN-LAST:event_comboAlumnosItemStateChanged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -214,27 +214,26 @@ formInscripcion form = new formInscripcion();
             }
         });
     }
-    public void verNotas(){
+    ///METODO PARA MOSTRAR NOTAS DE ALUMNOS SELECCIONADO DESDE COMBOBOX
+    public void mostrarNotas(){
            MateriaData mt = new MateriaData();
         //mData.cargarAlumnos("alumno","idAlumno", "nombre","apellido", comboAlumnos);
         Object idAl = comboAlumnos.getSelectedIndex()+1;
         String sql = "SELECT materia.idMateria, nombre, nota  "
                 + "FROM inscripcion JOIN materia  "
                 + "ON(inscripcion.idMateria=materia.idMateria)  "
-                + "WHERE inscripcion.idAlumno ="+idAl+"";
-        
+                + "WHERE inscripcion.idAlumno ="+idAl+"";        
         DefaultTableModel modelo = new DefaultTableModel();
         Connection con = Conexion.Conectar();
         try {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);
             modelo.setColumnIdentifiers(new Object[]{"ID","NOMBRE","NOTA"});
-            while(rs.next()){
+         while(rs.next()){
                 modelo.addRow(new Object[]{
                    rs.getInt("idMateria"),
                     rs.getString("nombre"),
-                    rs.getInt("nota")});
-                
+                     rs.getInt("nota")});                
             }
             tablaNotas.setModel(modelo);
             con.close();
@@ -256,21 +255,17 @@ public void actualizarNota(){
             int selectedRow = tablaNotas.getSelectedRow();
             Object idAlumno = tablaNotas.getValueAt(selectedRow, 0);
             System.out.println(""+idAlu);
-            stm.setInt(1, (int) nota);
-                    
+            stm.setInt(1, (int) nota);                    
             stm.setInt(2, (int) idAlu);
             stm.setInt(3, (int) idAlumno);
             System.out.println(""+idAlumno);      
                 stm.executeUpdate();
                 comboAlumnos.getSelectedIndex();
                 JOptionPane.showMessageDialog(this, "La nota se Actualizó Correctamente");
-                verNotas();
-                
-          
-           
+             mostrarNotas();          
         } catch (SQLException ex) {
             Logger.getLogger(formInscripcion.class.getName()).log(Level.SEVERE, null, ex);
-       }catch (ArrayIndexOutOfBoundsException ex) {
+        }catch (ArrayIndexOutOfBoundsException ex) {
             JOptionPane.showMessageDialog(this,"Para continuar debes selecionar una nota");
         }
        

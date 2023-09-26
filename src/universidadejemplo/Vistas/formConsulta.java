@@ -17,10 +17,11 @@ public class formConsulta extends javax.swing.JFrame {
 MateriaData mData = new MateriaData();
     public formConsulta() {
         initComponents();
-         setIconImage(getImageIcon());
+        setIconImage(getImageIcon());
         mData.cargarMaterias("materia", "nombre", comboMaterias);
         setLocationRelativeTo(null);
     }
+    ////METODO PARA CAMBIAR ICONO BARRA DE ESTADO Y BARRA DE TAREAS
     public Image getImageIcon(){
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("img/icono.png"));
         return retValue;
@@ -175,13 +176,12 @@ MateriaData mData = new MateriaData();
         });
     }
     
-    //METODO PARA LISTAR ALIUNOS INSCRIPTOS POR MATERIA
-       public void listaAlumnosPorMateria(){
-     
+    //METODO PARA LISTAR ALUMNOS INSCRIPTOS POR MATERIA
+       public void listaAlumnosPorMateria(){     
        // mData.cargarAlumnos("alumno","idAlumno", "nombre","apellido", comboMaterias);
        Object id = comboMaterias.getSelectedItem();
        String idAl = (String) id;
-           System.out.println(""+idAl);
+       System.out.println(""+idAl);
         String sql = "SELECT alumno.idAlumno, alumno.dni,alumno.apellido, alumno.nombre "
                 + "FROM alumno INNER JOIN inscripcion  ON alumno.idAlumno = inscripcion.idAlumno "
                 + "INNER JOIN materia  ON inscripcion.idMateria = materia.idMateria WHERE materia.nombre = ?";
@@ -197,9 +197,8 @@ MateriaData mData = new MateriaData();
                 modelo.addRow(new Object[]{
                    rs.getInt("idAlumno"),
                     rs.getInt("dni"),
-                    rs.getString("apellido"),
-                    rs.getString("nombre")});
-                
+                     rs.getString("apellido"),
+                      rs.getString("nombre")});                
             }
             tablaAlumnos.setModel(modelo);
             con.close();
