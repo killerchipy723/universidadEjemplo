@@ -491,7 +491,8 @@ ps.close();
             }
             tablaMaterias.setModel(mlo);
             con.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Hubo un error en la consulta");
         }
      }
 

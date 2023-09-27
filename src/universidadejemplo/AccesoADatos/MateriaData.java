@@ -53,18 +53,12 @@ public class MateriaData {
     public DefaultTableModel mostrarMaterias()
     {
         String []  nombresColumnas = {"id","Nombre","Año"};
-        String [] registros = new String[3];
-        
-        DefaultTableModel modelo = new DefaultTableModel(null,nombresColumnas);
-        
-        String sql = "SELECT * FROM materia";
-        
-        Connection cn = null;
-        
-        PreparedStatement pst = null;
-        
-        ResultSet rs = null;
-        
+        String [] registros = new String[3];       
+        DefaultTableModel modelo = new DefaultTableModel(null,nombresColumnas);        
+        String sql = "SELECT * FROM materia";        
+        Connection cn = null;        
+        PreparedStatement pst = null;        
+        ResultSet rs = null;        
         try
         {
             cn = Conexion.Conectar();
